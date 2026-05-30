@@ -63,5 +63,84 @@
       "salary": 2500,
       "id": 7
     }
+  ],
+  "interns": [
+    {
+      "id": 1,
+      "firstname": "Lucas",
+      "lastname": "Petit",
+      "email": "lucas.petit@stagiaire.com",
+      "school": "IUT Paris",
+      "startDate": "2024-09-01",
+      "endDate": "2025-02-28",
+      "mission": "Développement d'une application web",
+      "supervisorId": 1
+    },
+    {
+      "id": 2,
+      "firstname": "Camille",
+      "lastname": "Roux",
+      "email": "camille.roux@stagiaire.com",
+      "school": "Sciences Po",
+      "startDate": "2024-10-01",
+      "endDate": "2025-03-31",
+      "mission": "Analyse de marché et campagnes digitales",
+      "supervisorId": 2
+    },
+    {
+      "id": 3,
+      "firstname": "Théo",
+      "lastname": "Lambert",
+      "email": "theo.lambert@stagiaire.com",
+      "school": "Université Lyon 2",
+      "startDate": "2025-01-06",
+      "endDate": "2025-06-30",
+      "mission": "Gestion des ressources humaines",
+      "supervisorId": 3
+    },
+    {
+      "id": 4,
+      "firstname": "Sofia",
+      "lastname": "Moreau",
+      "email": "sofia.moreau@stagiaire.com",
+      "school": "HEC Paris",
+      "startDate": "2025-02-03",
+      "endDate": "2025-07-31",
+      "mission": "Audit financier et reporting",
+      "supervisorId": 4
+    },
+    {
+      "id": 5,
+      "firstname": "Nathan",
+      "lastname": "Garcia",
+      "email": "nathan.garcia@stagiaire.com",
+      "school": "Epitech",
+      "startDate": "2025-03-03",
+      "endDate": "2025-08-29",
+      "mission": "DevOps et intégration continue",
+      "supervisorId": 5
+    },
+    {
+      "firstname": "Jonathan",
+      "lastname": "Andria",
+      "email": "jonathan.4@co.hei.school",
+      "school": "HEI",
+      "mission": "stagiaire",
+      "startDate": "2026-05-30",
+      "endDate": "2026-08-20",
+      "supervisorId": 6,
+      "id": 6
+    },
+    {
+      "firstname": "test",
+      "lastname": "test",
+      "email": "andriambololonajonathan2@gmail.com",
+      "school": "HEI",
+      "mission": "test",
+      "startDate": "2026-05-30",
+      "endDate": "2026-05-31",
+      "supervisorId": 6,
+      "id": 7
+    }
   ]
 }
