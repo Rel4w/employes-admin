@@ -6,7 +6,6 @@ import {
     FilterButton,
     FunctionField,
     List,
-    NumberField,
     ReferenceField,
     SearchInput,
     SelectInput,
@@ -53,18 +52,33 @@ export const InternList = () => (
         perPage={5}
         actions={<ListActions />}
     >
-        <Datagrid rowClick="show">
-            <TextField source="firstname" label="Prénom" />
-            <TextField source="lastname" label="Nom" />
-            <TextField source="email" label="Email" />
+        {/* */}
+        <Datagrid
+            rowClick="show"
+            sx={{
+                "& .RaDatagrid-tableWrapper": { overflowX: "visible" },
+                "& .MuiTableCell-root": { whiteSpace: "nowrap" },
+            }}
+        >
+            {/*  */}
+            <FunctionField
+                label="Stagiaire"
+                render={(r: { firstname: string; lastname: string }) =>
+                    `${r.firstname} ${r.lastname}`
+                }
+            />
             <TextField source="school" label="École" />
-            <TextField source="department" label="Département" />
-            <DateField source="startDate" label="Début" />
-            <DateField source="endDate" label="Fin" />
+            <TextField source="department" label="Dépt." />
+            { }
+            <DateField source="startDate" label="Début" locales="fr-FR" />
+            <DateField source="endDate" label="Fin" locales="fr-FR" />
             <BooleanField source="isRemunerate" label="Rémunéré" />
             <FunctionField
                 label="Rémunération"
-                render={(record: { isRemunerate?: boolean; remuneration?: number }) =>
+                render={(record: {
+                    isRemunerate?: boolean;
+                    remuneration?: number;
+                }) =>
                     record.isRemunerate && record.remuneration != null
                         ? new Intl.NumberFormat("fr-FR", {
                               style: "currency",
@@ -80,9 +94,10 @@ export const InternList = () => (
                 link={false}
             >
                 <FunctionField
-                    render={(record: { firstname: string; lastname: string }) =>
-                        `${record.firstname} ${record.lastname}`
-                    }
+                    render={(record: {
+                        firstname: string;
+                        lastname: string;
+                    }) => `${record.firstname} ${record.lastname}`}
                 />
             </ReferenceField>
             <EditButton />

@@ -1,28 +1,23 @@
 import {
-    BooleanField,
-    DateField,
     EditButton,
-    EmailField,
     ListButton,
-    NumberField,
     ReferenceField,
     Show,
     TextField,
     TopToolbar,
     useRecordContext,
-    useGetOne,
+    FunctionField,
 } from "react-admin";
 import { useState } from "react";
-import { Box, Typography, Tab, Tabs, Chip } from "@mui/material";
+import { Box, Typography, Tab, Tabs, Link } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import BadgeIcon from "@mui/icons-material/Badge";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import WorkIcon from "@mui/icons-material/Work";
 import EmailIcon from "@mui/icons-material/Email";
-import EuroIcon from "@mui/icons-material/Euro";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { ManagerCard } from "./ManagerCard";
+import { useNavigate } from "react-router-dom";
 
 const ShowActions = () => (
     <TopToolbar>
@@ -72,15 +67,41 @@ const Row = ({
 
 const InternTab = () => {
     const record = useRecordContext();
+    const navigate = useNavigate();
+
     if (!record) return null;
 
     return (
         <Box>
-            <Row icon={<AccountCircleIcon fontSize="small" />} label="Prénom" value={record.firstname} />
-            <Row icon={<AccountCircleIcon fontSize="small" />} label="Nom" value={record.lastname} />
-            <Row icon={<EmailIcon fontSize="small" />} label="Email" value={record.email} />
-            <Row icon={<SchoolIcon fontSize="small" />} label="École / Université" value={record.school} />
-            <Row icon={<WorkIcon fontSize="small" />} label="Mission" value={record.mission} />
+            <Row
+                icon={<AccountCircleIcon fontSize="small" />}
+                label="Prénom"
+                value={record.firstname}
+            />
+            <Row
+                icon={<AccountCircleIcon fontSize="small" />}
+                label="Nom"
+                value={record.lastname}
+            />
+            <Row
+                icon={<EmailIcon fontSize="small" />}
+                label="Email"
+                value={
+                    <Link href={`mailto:${record.email}`} underline="hover">
+                        {record.email}
+                    </Link>
+                }
+            />
+            <Row
+                icon={<SchoolIcon fontSize="small" />}
+                label="École / Université"
+                value={record.school}
+            />
+            <Row
+                icon={<WorkIcon fontSize="small" />}
+                label="Mission"
+                value={record.mission}
+            />
             <Row
                 icon={<CalendarMonthIcon fontSize="small" />}
                 label="Date de début"
@@ -91,40 +112,31 @@ const InternTab = () => {
                 label="Date de fin"
                 value={new Date(record.endDate).toLocaleDateString("fr-FR")}
             />
-        </Box>
-    );
-};
-
-const SupervisorTab = () => {
-    const intern = useRecordContext();
-    const { data: supervisor } = useGetOne("employees", { id: intern?.supervisorId }, { enabled: !!intern?.supervisorId });
-
-    if (!supervisor) return (
-        <Box p={3} textAlign="center">
-            <Typography color="text.secondary">Chargement…</Typography>
-        </Box>
-    );
-
-    return (
-        <Box>
-            <Row icon={<AccountCircleIcon fontSize="small" />} label="Prénom" value={supervisor.firstname} />
-            <Row icon={<AccountCircleIcon fontSize="small" />} label="Nom" value={supervisor.lastname} />
-            <Row icon={<EmailIcon fontSize="small" />} label="Email" value={supervisor.email} />
-            <Row icon={<WorkIcon fontSize="small" />} label="Département" value={supervisor.department} />
+            {/* Manager — lien cliquable vers la fiche employé (8.1) */}
             <Row
-                icon={<EuroIcon fontSize="small" />}
-                label="Salaire"
-                value={new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(supervisor.salary)}
-            />
-            <Row
-                icon={supervisor.active ? <CheckCircleIcon fontSize="small" /> : <CancelIcon fontSize="small" />}
-                label="Statut"
+                icon={<BadgeIcon fontSize="small" />}
+                label="Manager"
                 value={
-                    <Chip
-                        label={supervisor.active ? "Actif" : "Inactif"}
-                        color={supervisor.active ? "success" : "default"}
-                        size="small"
-                    />
+                    <ReferenceField
+                        source="supervisorId"
+                        reference="employees"
+                        link="show"
+                    >
+                        <FunctionField
+                            render={(emp: { firstname: string; lastname: string; id: number }) => (
+                                <Link
+                                    component="button"
+                                    underline="hover"
+                                    onClick={() =>
+                                        navigate(`/employees/${emp.id}/show`)
+                                    }
+                                    sx={{ cursor: "pointer" }}
+                                >
+                                    {emp.firstname} {emp.lastname}
+                                </Link>
+                            )}
+                        />
+                    </ReferenceField>
                 }
             />
         </Box>
@@ -144,7 +156,6 @@ const TabbedCard = () => {
                 m: 2,
             }}
         >
-            {/* En-tête onglets */}
             <Tabs
                 value={tab}
                 onChange={(_, v) => setTab(v)}
@@ -168,14 +179,14 @@ const TabbedCard = () => {
                 <Tab
                     icon={<BadgeIcon fontSize="small" />}
                     iconPosition="start"
-                    label="Encadreur"
+                    label="Manager"
                 />
             </Tabs>
 
-            {/* Contenu */}
             <Box>
                 {tab === 0 && <InternTab />}
-                {tab === 1 && <SupervisorTab />}
+                {/* Exercice 8.2 — ManagerCard avec useGetOne */}
+                {tab === 1 && <ManagerCard />}
             </Box>
         </Box>
     );
