@@ -12,6 +12,7 @@ import {
     TopToolbar,
     CreateButton,
 } from "react-admin";
+import { QuickStatusToggle } from "./QuickStatusToggle";
 
 const employeeFilters = [
     <SearchInput key="search" source="q" alwaysOn />,
@@ -19,10 +20,10 @@ const employeeFilters = [
         key="department"
         source="department"
         choices={[
-        { id: "Informatique", name: "Informatique" },
-        { id: "Marketing", name: "Marketing" },
-        { id: "RH", name: "RH" },
-        { id: "Finance", name: "Finance" },
+            { id: "Informatique", name: "Informatique" },
+            { id: "Marketing", name: "Marketing" },
+            { id: "RH", name: "RH" },
+            { id: "Finance", name: "Finance" },
         ]}
     />,
 ];
@@ -41,18 +42,19 @@ export const EmployeeList = () => (
         actions={<ListActions />}
     >
         <Datagrid rowClick="show">
-        <TextField source="firstname" label="Prénom" />
-        <TextField source="lastname" label="Nom" />
-        <TextField source="email" label="Email" />
-        <TextField source="department" label="Département" />
-        <NumberField
-            source="salary"
-            label="Salaire"
-            options={{ style: "currency", currency: "EUR" }}
-        />
-        <BooleanField source="active" label="Actif" />
-        <EditButton />
-        <DeleteButton />
+            <TextField source="firstname" label="Prénom" />
+            <TextField source="lastname" label="Nom" />
+            <TextField source="email" label="Email" />
+            <TextField source="department" label="Département" />
+            <NumberField
+                source="salary"
+                label="Salaire"
+                options={{ style: "currency", currency: "EUR" }}
+            />
+            <BooleanField source="active" label="Actif" />
+            <QuickStatusToggle />
+            <EditButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );

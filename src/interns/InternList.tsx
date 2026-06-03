@@ -14,6 +14,7 @@ import {
     CreateButton,
     BooleanField,
 } from "react-admin";
+import { QuickInternCreate } from "./QuickInternCreate";
 
 const internFilters = [
     <SearchInput key="search" source="q" alwaysOn />,
@@ -42,6 +43,7 @@ const internFilters = [
 const ListActions = () => (
     <TopToolbar>
         <FilterButton />
+        <QuickInternCreate />
         <CreateButton />
     </TopToolbar>
 );
@@ -52,7 +54,6 @@ export const InternList = () => (
         perPage={5}
         actions={<ListActions />}
     >
-        {/* */}
         <Datagrid
             rowClick="show"
             sx={{
@@ -60,7 +61,6 @@ export const InternList = () => (
                 "& .MuiTableCell-root": { whiteSpace: "nowrap" },
             }}
         >
-            {/*  */}
             <FunctionField
                 label="Stagiaire"
                 render={(r: { firstname: string; lastname: string }) =>
@@ -69,7 +69,6 @@ export const InternList = () => (
             />
             <TextField source="school" label="École" />
             <TextField source="department" label="Dépt." />
-            { }
             <DateField source="startDate" label="Début" locales="fr-FR" />
             <DateField source="endDate" label="Fin" locales="fr-FR" />
             <BooleanField source="isRemunerate" label="Rémunéré" />
