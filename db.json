@@ -62,6 +62,15 @@
       "department": "Finance",
       "salary": 2500,
       "id": 7
+    },
+    {
+      "active": true,
+      "firstname": "Test",
+      "lastname": "test",
+      "email": "hei.jonathan.4@gmail.com",
+      "department": "RH",
+      "salary": 2500,
+      "id": 8
     }
   ],
   "interns": [
