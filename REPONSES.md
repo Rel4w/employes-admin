@@ -65,3 +65,43 @@ if (!record) return <span>Chargement...</span>;
 `SimpleShowLayout` affiche tous les champs les uns en dessous des autres sur une seule page. C'est adapté quand il n'y a pas beaucoup de champs.
 
 `TabbedShowLayout` organise les champs en onglets. C'est utile quand il y a beaucoup d'informations à afficher et qu'on veut les regrouper par thème pour que ce soit plus lisible.
+
+
+---
+
+## Question 6.1 — ReferenceField génère quel appel HTTP pour résoudre le manager ?
+
+`ReferenceField` effectue un appel `GET` vers la ressource référencée pour chaque enregistrement affiché. Avec `ra-data-json-server`, React-Admin optimise cela en regroupant les identifiants uniques en une seule requête :
+
+```
+GET http://localhost:3002/employees?id=1&id=2&id=3&...
+```
+
+React-Admin utilise le mécanisme de **batching** interne : plutôt que N requêtes individuelles, il accumule tous les `supervisorId` visibles sur la page et envoie une seule requête avec tous les ids concernés.
+
+## Question 6.2 — Que se passe-t-il visuellement si managerId ne correspond à aucun employé ?
+
+`ReferenceField` affiche une cellule vide à la place du nom du manager. Il n'y a pas de message d'erreur visible pour l'utilisateur. Dans la console du navigateur, React-Admin peut afficher un avertissement indiquant que la référence n'a pas été trouvée. C'est pourquoi il est important de maintenir la cohérence des données (ne pas supprimer un employé qui est encore manager d'un stagiaire).
+
+
+---
+
+## Question 7.1 — Quelle méthode HTTP est émise lors de la soumission de InternCreate ? Vers quel endpoint ?
+
+```
+POST http://localhost:3002/interns
+```
+
+React-Admin utilise `POST` pour la création d'un nouvel enregistrement. Le corps de la requête contient l'objet JSON avec tous les champs du formulaire.
+
+## Question 7.2 — Quel hook utilisez-vous pour la validation conditionnelle de remuneration, et pourquoi ?
+
+On utilise `useWatch` de **react-hook-form** (intégré à React-Admin) :
+
+```tsx
+const isRemunerate = useWatch({ name: "isRemunerate" });
+```
+
+Ce hook s'abonne à la valeur courante d'un champ du formulaire et re-rend le composant à chaque changement de cette valeur. C'est la solution recommandée par la documentation React-Admin pour lire la valeur d'un autre champ dans un composant de formulaire.
+
+`useFormContext` aurait aussi fonctionné, mais `useWatch` est plus précis car il ne déclenche un re-rendu que lorsque le champ spécifié change, et non à chaque modification du formulaire.
