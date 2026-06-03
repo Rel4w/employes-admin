@@ -80,9 +80,9 @@ export const InternList = () => (
                 }) =>
                     record.isRemunerate && record.remuneration != null
                         ? new Intl.NumberFormat("fr-FR", {
-                              style: "currency",
-                              currency: "EUR",
-                          }).format(record.remuneration)
+                                style: "currency",
+                                currency: "EUR",
+                            }).format(record.remuneration)
                         : "—"
                 }
             />
